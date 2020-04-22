@@ -2,7 +2,11 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-    res.send('zmail coming soon...');
+    res.send({
+        data : "success"
+    });
 })
 
-app.listen(5000);
+
+const PORT = process.env.PORT || 5000 ;
+app.listen(PORT);
