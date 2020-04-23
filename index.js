@@ -7,19 +7,24 @@ const app = express();
 
 passport.use(new GoogleStrategy({
     clientID : keys.googleClientID,
-    secret : keys.googleClientSecret,
+    clientSecret : keys.googleClientSecret,
     callbackURL : '/auth/google/callback'
-    }, (accessToken) => {
-        console.log(accessToken);
+    }, (accessToken, refreshToken, profile, done) => {
+        
     })
 );
 
+// 'google' is an interanl identifier of GoogleStrategy.
 app.get(
     '/auth/google',
-    passport.authenticate('google', {       // 'google' is an interanl identifier of GoogleStrategy.
+    passport.authenticate('google', {       
         scope : ['profile', 'email']
     })
 )
 
+app.get('/auth/google/callback', passport.authenticate('google'))
+
 const PORT = process.env.PORT || 5000 ;
-app.listen(PORT);
+app.listen(PORT, ()=> {
+    console.log('app listening on port:', PORT)
+});
